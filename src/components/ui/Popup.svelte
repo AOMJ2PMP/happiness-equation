@@ -49,35 +49,43 @@
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div class="popup-card" onclick={(e) => e.stopPropagation()}>
-      <button class="popup-close" onclick={onClose} aria-label="Close">&times;</button>
-
-      <div class="popup-header">
-        <span class="region-dot" style="background: {getRegionColor(country.region)}"></span>
-        <div>
-          <h2>{country.name}</h2>
-          <div class="popup-region">{country.region}</div>
+      <!-- Color banner header -->
+      <div class="popup-banner" style="background: {getRegionColor(country.region)}">
+        <div class="popup-banner-inner">
+          <div>
+            <h2>{country.name}</h2>
+            <div class="popup-region">{country.region}</div>
+          </div>
+          <div class="popup-score-badge">
+            {#if country.score2024}
+              <span class="score-num">{country.score2024.toFixed(2)}</span>
+              <span class="score-sub">score</span>
+            {/if}
+          </div>
         </div>
-      </div>
-
-      <div class="popup-meta">
-        {#if country.rank}
-          <span class="meta-item">Rank <strong>#{country.rank}</strong></span>
-        {/if}
-        {#if country.score2024}
-          <span class="meta-item">Score <strong>{country.score2024.toFixed(2)}</strong></span>
-        {/if}
-      </div>
-
-      <BarDecompose {country} />
-
-      {#if sparkData.length >= 2}
-        <div class="sparkline-section">
-          <div class="sparkline-label">Happiness score over time ({sparkData[0].year}–{sparkData[sparkData.length - 1].year})</div>
-          <svg width={sparkWidth} height={sparkHeight} viewBox="0 0 {sparkWidth} {sparkHeight}">
-            <path d={sparkPath} fill="none" stroke={getRegionColor(country.region)} stroke-width="2" />
+        <button class="popup-close" onclick={onClose} aria-label="Close">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
-        </div>
-      {/if}
+        </button>
+      </div>
+
+      <div class="popup-content">
+        {#if country.rank}
+          <div class="popup-rank">Ranked <strong>#{country.rank}</strong> out of 143 countries</div>
+        {/if}
+
+        <BarDecompose {country} />
+
+        {#if sparkData.length >= 2}
+          <div class="sparkline-section">
+            <div class="sparkline-label">Happiness trend ({sparkData[0].year}–{sparkData[sparkData.length - 1].year})</div>
+            <svg width={sparkWidth} height={sparkHeight} viewBox="0 0 {sparkWidth} {sparkHeight}">
+              <path d={sparkPath} fill="none" stroke={getRegionColor(country.region)} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        {/if}
+      </div>
     </div>
   </div>
 {/if}
@@ -86,93 +94,138 @@
   .popup-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2000;
+    backdrop-filter: blur(2px);
   }
 
   .popup-card {
     background: white;
-    border-radius: 12px;
-    padding: 24px;
+    border-radius: 16px;
     max-width: 400px;
     width: calc(100% - 40px);
-    max-height: 80vh;
+    max-height: 85vh;
     overflow-y: auto;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    box-shadow:
+      0 4px 16px rgba(0,0,0,0.12),
+      0 16px 48px rgba(0,0,0,0.15);
     position: relative;
     font-family: var(--sans);
+    overflow: hidden;
+  }
+
+  /* Colored banner */
+  .popup-banner {
+    padding: 20px 20px 16px;
+    position: relative;
+    color: white;
+  }
+
+  .popup-banner-inner {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .popup-banner h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    font-family: var(--serif);
+    color: white;
+    line-height: 1.2;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+
+  .popup-region {
+    font-size: 12px;
+    color: rgba(255,255,255,0.8);
+    margin-top: 4px;
+  }
+
+  .popup-score-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+    padding: 8px 14px;
+    flex-shrink: 0;
+    backdrop-filter: blur(4px);
+  }
+
+  .score-num {
+    font-size: 22px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    color: white;
+  }
+
+  .score-sub {
+    font-size: 10px;
+    color: rgba(255,255,255,0.75);
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   .popup-close {
     position: absolute;
     top: 12px;
     right: 12px;
-    background: none;
+    background: rgba(255,255,255,0.2);
     border: none;
-    font-size: 24px;
-    color: #999;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    color: white;
     cursor: pointer;
     padding: 0;
-    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
   }
 
   .popup-close:hover {
-    color: #333;
-    background: none;
+    background: rgba(255,255,255,0.35);
   }
 
-  .popup-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 12px;
+  /* Content area */
+  .popup-content {
+    padding: 16px 20px 20px;
+    overflow-y: auto;
+    max-height: calc(85vh - 100px);
   }
 
-  .popup-header h2 {
-    margin: 0;
-    font-size: 20px;
-    font-weight: 700;
-  }
-
-  .popup-region {
+  .popup-rank {
     font-size: 12px;
-    color: #666;
-    margin-top: 2px;
+    color: #888;
+    margin-bottom: 14px;
   }
 
-  .region-dot {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    margin-top: 4px;
-  }
-
-  .popup-meta {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 16px;
-    font-size: 13px;
-    color: #555;
-  }
-
-  .meta-item strong {
-    color: #222;
+  .popup-rank strong {
+    color: #333;
   }
 
   .sparkline-section {
     margin-top: 16px;
-    padding-top: 12px;
-    border-top: 1px solid #eee;
+    padding-top: 14px;
+    border-top: 1px solid #f0ede8;
   }
 
   .sparkline-label {
     font-size: 11px;
-    color: #888;
-    margin-bottom: 6px;
+    font-weight: 600;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
   }
 
   .sparkline-section svg {

@@ -73,6 +73,15 @@
 
 <div class="scatter-container" bind:this={containerEl}>
   <svg {width} {height} viewBox="0 0 {width} {height}">
+    <defs>
+      <filter id="hl-glow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
     <Axes {xScale} {yScale} {xDim} {yDim} {width} {height} {margin} />
 
     {#each countries as country (country.name)}
@@ -90,8 +99,9 @@
           {r}
           fill={getRegionColor(country.region)}
           {opacity}
-          stroke={hl ? "#333" : "none"}
-          stroke-width={hl ? 2 : 0}
+          stroke={hl ? "#fff" : "rgba(255,255,255,0.55)"}
+          stroke-width={hl ? 2 : 1}
+          filter={hl ? "url(#hl-glow)" : "none"}
           style="transform: translate({x}px, {y}px); transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1), opacity 300ms ease;"
           role="img"
           aria-label="{country.name}: {country.score2024}"
@@ -109,13 +119,24 @@
       {@const x = getX(country)}
       {@const y = getY(country)}
       {#if x !== null && y !== null && isHighlighted(country)}
+        <!-- Label background pill -->
+        <rect
+          x={x - 32}
+          y={y - rScale(country.score2024 ?? 5) - 24}
+          width="64"
+          height="17"
+          rx="8"
+          fill="white"
+          fill-opacity="0.9"
+          style="pointer-events: none;"
+        />
         <text
           x={x}
-          y={y - rScale(country.score2024 ?? 5) - 6}
+          y={y - rScale(country.score2024 ?? 5) - 11}
           text-anchor="middle"
-          fill="#333"
+          fill="#1a1a1a"
           font-size="11"
-          font-weight="600"
+          font-weight="700"
           font-family="var(--sans)"
           style="transition: all 600ms cubic-bezier(0.22, 1, 0.36, 1); pointer-events: none;"
         >

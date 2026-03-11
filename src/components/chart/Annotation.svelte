@@ -44,16 +44,18 @@
   }
 
   .annotation-callout {
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(4px);
-    padding: 8px 14px;
-    border-radius: 6px;
+    background: rgba(255, 253, 250, 0.95);
+    backdrop-filter: blur(8px);
+    padding: 10px 14px 10px 16px;
+    border-radius: 8px;
     font-family: var(--sans);
     font-size: 12px;
-    color: #555;
-    border: 1px solid #e0e0e0;
+    color: #444;
+    border: 1px solid rgba(0,0,0,0.07);
+    border-left: 3px solid #4e79a7;
     max-width: 240px;
-    line-height: 1.4;
+    line-height: 1.5;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
   }
 
   .annotation-diminishing {

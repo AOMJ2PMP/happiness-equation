@@ -19,7 +19,7 @@
         y1={margin.top}
         x2={x}
         y2={height - margin.bottom}
-        stroke="#e0e0e0"
+        stroke="#e8e5e0"
         stroke-width="1"
       />
       <text
@@ -55,7 +55,7 @@
         y1={y}
         x2={width - margin.right}
         y2={y}
-        stroke="#e0e0e0"
+        stroke="#e8e5e0"
         stroke-width="1"
       />
       <text
@@ -89,7 +89,7 @@
     y1={height - margin.bottom}
     x2={width - margin.right}
     y2={height - margin.bottom}
-    stroke="#999"
+    stroke="#c8c4bc"
     stroke-width="1"
   />
   <line
@@ -97,7 +97,7 @@
     y1={margin.top}
     x2={margin.left}
     y2={height - margin.bottom}
-    stroke="#999"
+    stroke="#c8c4bc"
     stroke-width="1"
   />
 </g>

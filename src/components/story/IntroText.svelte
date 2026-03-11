@@ -41,7 +41,7 @@
 </script>
 
 {#if isExploreMode}
-  <button class="backToTour" onclick={() => onStep(-introStage)}>Back to story</button>
+  <button class="backToTour" onclick={() => onStep(-introStage)}>← Back to story</button>
 {:else}
   <div class="introText">
     {#if currentText}
@@ -50,40 +50,46 @@
       </div>
     {/if}
 
+    <!-- Step dots -->
+    <div class="step-dots">
+      {#each copy.story as _, i}
+        <span class="dot" class:active={i === introStage}></span>
+      {/each}
+    </div>
+
     <div class="buttonContainer">
       {#if introStage > 0}
-        <button class="prev" class:active={leftPressed} onclick={() => onStep(-1)}>
+        <button class="btn btn-prev" class:active={leftPressed} onclick={() => onStep(-1)}>
           <span class="btn-content">
-            {#if hasHover}<span class="key-hint">&larr;</span>{/if}
+            {#if hasHover}<span class="key-hint">←</span>{/if}
             Back
           </span>
         </button>
       {/if}
       {#if introStage === 0}
-        <button class="start" class:active={rightPressed} onclick={() => onStep(1)}>
+        <button class="btn btn-start btn-primary" class:active={rightPressed} onclick={() => onStep(1)}>
           <span class="btn-content">
-            Start
-            {#if hasHover}<span class="key-hint">&rarr;</span>{/if}
+            Start →
           </span>
         </button>
       {:else if introStage < STORY_LENGTH - 1}
-        <button class="next" class:active={rightPressed} onclick={() => onStep(1)}>
+        <button class="btn btn-next btn-primary" class:active={rightPressed} onclick={() => onStep(1)}>
           <span class="btn-content">
             Next
-            {#if hasHover}<span class="key-hint">&rarr;</span>{/if}
+            {#if hasHover}<span class="key-hint">→</span>{/if}
           </span>
         </button>
       {:else}
-        <button class="explore next" class:active={rightPressed} onclick={() => onStep(2)}>
+        <button class="btn btn-next btn-explore" class:active={rightPressed} onclick={() => onStep(2)}>
           <span class="btn-content">
-            Explore
-            {#if hasHover}<span class="key-hint">&rarr;</span>{/if}
+            Explore data
+            {#if hasHover}<span class="key-hint">→</span>{/if}
           </span>
         </button>
       {/if}
     </div>
   </div>
-  <button class="skipBtn" onclick={() => onStep(2)}>Skip story</button>
+  <button class="skipBtn" onclick={() => onStep(2)}>Skip</button>
 {/if}
 
 <style>
@@ -94,22 +100,25 @@
     left: 50%;
     transform: translateX(-50%);
     bottom: 0;
-    padding: 6px 16px;
+    padding: 5px 18px;
     font-family: var(--sans);
-    font-size: 13px;
-    color: #333;
+    font-size: 12px;
+    font-weight: 500;
+    color: #666;
     background: white;
-    border: 1px solid #ccc;
+    border: 1px solid #d8d6d0;
     border-bottom: none;
     border-radius: 8px 8px 0 0;
     cursor: pointer;
-    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.06);
+    letter-spacing: 0.01em;
     touch-action: manipulation;
   }
 
   .backToTour:hover,
   .skipBtn:hover {
-    background: #f0f0f0;
+    background: #f5f4f0;
+    color: #333;
   }
 
   .introText {
@@ -117,26 +126,31 @@
     z-index: 999;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 20px;
-    width: 380px;
+    bottom: 24px;
+    width: 400px;
     max-width: calc(100% - 32px);
-    padding: 20px 24px;
+    padding: 22px 26px 18px;
     font-family: var(--sans);
-    color: #222;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(8px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    color: #1a1a1a;
+    border-radius: 14px;
+    background: rgba(255, 253, 250, 0.97);
+    border: 1px solid rgba(0,0,0,0.07);
+    backdrop-filter: blur(12px);
+    box-shadow:
+      0 2px 4px rgba(0,0,0,0.04),
+      0 8px 24px rgba(0,0,0,0.09),
+      0 20px 48px rgba(0,0,0,0.05);
   }
 
   .textContent {
-    margin-bottom: 12px;
+    margin-bottom: 14px;
   }
 
   .introText :global(p) {
     font-size: 14px;
-    line-height: 1.6;
+    line-height: 1.65;
     margin: 0 0 10px 0;
+    color: #2a2a2a;
   }
 
   .introText :global(p:last-child) {
@@ -146,45 +160,108 @@
   .introText :global(strong) {
     font-weight: 700;
     color: #111;
+    font-family: var(--serif);
+    font-size: 15px;
   }
 
+  /* Step dots */
+  .step-dots {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 14px;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #d0cdc8;
+    transition: background 0.3s, width 0.3s;
+  }
+
+  .dot.active {
+    width: 18px;
+    border-radius: 3px;
+    background: #4e79a7;
+  }
+
+  /* Buttons */
   .buttonContainer {
     width: 100%;
-    height: 38px;
+    height: 40px;
     position: relative;
-    margin-top: 12px;
   }
 
-  .introText button {
+  .btn {
     font-family: var(--sans);
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 13px;
+    font-weight: 600;
     position: absolute;
-    width: calc(50% - 4px);
-    color: #333;
     bottom: 0;
     height: 100%;
-    background: #f5f5f5;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 9px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0;
-    transition: transform 0.1s, box-shadow 0.1s, background 0.2s;
+    padding: 0 16px;
+    letter-spacing: 0.01em;
+    transition: transform 0.1s, box-shadow 0.1s, background 0.15s;
     touch-action: manipulation;
+    border: none;
   }
 
-  .introText button:active,
-  .introText button.active {
+  .btn-prev {
+    left: 0;
+    width: calc(38% - 6px);
+    background: #eeede9;
+    color: #555;
+  }
+
+  .btn-prev:hover {
+    background: #e5e4df;
+    color: #222;
+  }
+
+  .btn-next,
+  .btn-start {
+    right: 0;
+  }
+
+  .btn-start {
+    left: 31%;
+    right: 31%;
+    width: auto;
+  }
+
+  .btn-primary {
+    background: #4e79a7;
+    color: white;
+    box-shadow: 0 2px 8px rgba(78, 121, 167, 0.35);
+    width: calc(62% - 6px);
+  }
+
+  .btn-primary:hover {
+    background: #3d6490;
+    box-shadow: 0 3px 12px rgba(78, 121, 167, 0.45);
+  }
+
+  .btn-explore {
+    background: linear-gradient(135deg, #4e79a7 0%, #6b9fc4 100%);
+    color: white;
+    box-shadow: 0 2px 8px rgba(78, 121, 167, 0.35);
+    width: calc(62% - 6px);
+  }
+
+  .btn-explore:hover {
+    background: linear-gradient(135deg, #3d6490 0%, #5a8cb0 100%);
+    box-shadow: 0 3px 12px rgba(78, 121, 167, 0.45);
+  }
+
+  .btn:active,
+  .btn.active {
     transform: translateY(1px);
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15);
-    background: #e8e8e8;
-  }
-
-  .introText button:hover {
-    background: #eaeaea;
+    box-shadow: none !important;
   }
 
   .btn-content {
@@ -200,38 +277,30 @@
     justify-content: center;
     width: 18px;
     height: 18px;
-    font-size: 10px;
-    font-weight: bold;
-    background: rgba(0, 0, 0, 0.06);
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    border-radius: 3px;
-    color: #666;
-    opacity: 0.6;
+    font-size: 11px;
+    font-weight: 700;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 4px;
+    opacity: 0.75;
     flex-shrink: 0;
   }
 
-  .introText button:hover .key-hint {
+  .btn-prev .key-hint {
+    background: rgba(0,0,0,0.06);
+    border-color: rgba(0,0,0,0.12);
+    color: #666;
+  }
+
+  .btn:hover .key-hint {
     opacity: 1;
-  }
-
-  .introText button.start {
-    right: 25%;
-    width: 50%;
-  }
-
-  .introText button.next {
-    right: 0;
-  }
-
-  .introText button.prev {
-    left: 0;
   }
 
   @media (max-width: 500px) {
     .introText {
       bottom: 12px;
       width: calc(100% - 24px);
-      padding: 16px;
+      padding: 18px 18px 14px;
     }
   }
 </style>

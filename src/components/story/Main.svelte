@@ -250,11 +250,14 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(8px);
-    border-radius: 10px;
+    background: rgba(255, 253, 250, 0.94);
+    backdrop-filter: blur(12px);
+    border-radius: 12px;
     padding: 14px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    box-shadow:
+      0 1px 3px rgba(0,0,0,0.05),
+      0 4px 16px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.06);
     max-width: 320px;
   }
 
