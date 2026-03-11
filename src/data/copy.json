@@ -1,0 +1,63 @@
+{
+  "title": "The Happiness Equation",
+  "description": "What really makes a country happy? An interactive exploration of the World Happiness Report.",
+  "byline": "An interactive data story",
+  "story": [
+    {
+      "xDim": "gdp",
+      "yDim": "score2024",
+      "highlighted": [],
+      "dimmedRegions": [],
+      "annotation": "title",
+      "text": "**The Happiness Equation**\n\nWhat really makes a country happy? Every year, the World Happiness Report ranks nations by how their citizens rate their own lives. Let's explore what drives these scores."
+    },
+    {
+      "xDim": "gdp",
+      "yDim": "score2024",
+      "highlighted": [],
+      "dimmedRegions": [],
+      "annotation": "intro",
+      "text": "Each dot is a country. The higher it sits, the happier its people report being. The further right, the wealthier the nation.\n\nNotice the pattern? Richer countries tend to be happier — but the relationship isn't as simple as it looks."
+    },
+    {
+      "xDim": "gdp",
+      "yDim": "score2024",
+      "highlighted": ["Finland", "Denmark", "Norway", "Qatar", "Luxembourg", "Singapore"],
+      "dimmedRegions": [],
+      "annotation": "diminishing",
+      "text": "**Money helps — but only up to a point.**\n\nThe curve flattens at the top. Qatar and Luxembourg are among the world's richest, but they don't top the happiness rankings. The Nordic countries do — with less wealth but stronger social fabric."
+    },
+    {
+      "xDim": "gdp",
+      "yDim": "score2024",
+      "highlighted": ["United States", "Costa Rica"],
+      "dimmedRegions": [],
+      "annotation": "paradox",
+      "text": "**The American paradox.**\n\nThe United States is one of the wealthiest nations on Earth, yet Costa Rica — with a fraction of the GDP — scores nearly as high on happiness. What's Costa Rica's secret?"
+    },
+    {
+      "xDim": "social",
+      "yDim": "score2024",
+      "highlighted": [],
+      "dimmedRegions": ["Western Europe", "Central and Eastern Europe", "Commonwealth of Independent States", "East Asia", "Southeast Asia", "South Asia", "Middle East and North Africa", "North America and ANZ", "Sub-Saharan Africa"],
+      "annotation": "latam",
+      "text": "**Latin America's secret: social support.**\n\nWhen we switch the X-axis to social support, Latin American countries punch well above their weight. Strong family bonds and community ties create happiness that money can't buy."
+    },
+    {
+      "xDim": "social",
+      "yDim": "score2024",
+      "highlighted": [],
+      "dimmedRegions": [],
+      "annotation": "decompose",
+      "text": "**The real formula.**\n\nHappiness isn't one thing — it's a cocktail of factors: GDP, social support, health, freedom, generosity, and low corruption. The happiest countries score well across all of them."
+    },
+    {
+      "xDim": "gdp",
+      "yDim": "score2024",
+      "highlighted": [],
+      "dimmedRegions": [],
+      "annotation": "explore-prompt",
+      "text": "**Now it's your turn.**\n\nSwap the axes. Filter by region. Click any country to see its full breakdown. Use the time slider to watch how happiness has changed since 2005."
+    }
+  ]
+}
