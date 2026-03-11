@@ -3,11 +3,6 @@
 
   let { disabledRegions = [], onToggle = () => {} } = $props();
 
-  function toggle(region) {
-    onToggle(region);
-  }
-
-  // Short labels for space
   const SHORT_LABELS = {
     "Western Europe": "W. Europe",
     "Central and Eastern Europe": "E. Europe",
@@ -23,62 +18,84 @@
 </script>
 
 <div class="region-filter">
-  {#each REGIONS as region}
-    {@const disabled = disabledRegions.includes(region)}
-    <button
-      class="region-btn"
-      class:disabled
-      onclick={() => toggle(region)}
-      title={region}
-      aria-pressed={!disabled}
-    >
-      <span class="region-dot" style="background: {disabled ? '#ccc' : getRegionColor(region)}"></span>
-      <span class="region-label">{SHORT_LABELS[region] || region}</span>
-    </button>
-  {/each}
+  <div class="filter-label">Regions</div>
+  <div class="filter-grid">
+    {#each REGIONS as region}
+      {@const disabled = disabledRegions.includes(region)}
+      <button
+        class="region-btn"
+        class:disabled
+        onclick={() => onToggle(region)}
+        title={region}
+        aria-pressed={!disabled}
+      >
+        <span class="dot" style="background: {disabled ? '#ccc' : getRegionColor(region)}"></span>
+        <span>{SHORT_LABELS[region] || region}</span>
+      </button>
+    {/each}
+  </div>
 </div>
 
 <style>
   .region-filter {
     display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .filter-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .filter-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
   }
 
   .region-btn {
     display: flex;
     align-items: center;
-    gap: 4px;
-    padding: 3px 8px;
+    gap: 5px;
+    padding: 4px 7px;
     font-family: var(--sans);
     font-size: 11px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 14px;
+    font-weight: 500;
+    background: #f5f4f0;
+    border: 1px solid transparent;
+    border-radius: 6px;
     cursor: pointer;
-    color: #333;
-    transition: opacity 0.2s, background 0.15s;
+    color: #444;
+    transition: background 0.12s, opacity 0.2s;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
   }
 
   .region-btn:hover {
-    background: #f5f5f5;
+    background: #eeede9;
   }
 
   .region-btn.disabled {
     opacity: 0.4;
-    background: #fafafa;
+    background: #f5f4f0;
   }
 
-  .region-dot {
-    width: 8px;
-    height: 8px;
+  .region-btn.disabled:hover {
+    background: #eeede9;
+    opacity: 0.5;
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     flex-shrink: 0;
     transition: background 0.2s;
-  }
-
-  .region-label {
-    line-height: 1;
   }
 </style>

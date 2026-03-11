@@ -11,16 +11,16 @@
 
 <div class="axis-selector">
   <div class="selector-group">
-    <label for="x-axis">X Axis</label>
-    <select id="x-axis" value={xDim} onchange={(e) => onChangeX(e.target.value)}>
+    <label for="y-axis">Y axis</label>
+    <select id="y-axis" value={yDim} onchange={(e) => onChangeY(e.target.value)}>
       {#each dims as d}
         <option value={d.value}>{d.label}</option>
       {/each}
     </select>
   </div>
   <div class="selector-group">
-    <label for="y-axis">Y Axis</label>
-    <select id="y-axis" value={yDim} onchange={(e) => onChangeY(e.target.value)}>
+    <label for="x-axis">X axis</label>
+    <select id="x-axis" value={xDim} onchange={(e) => onChangeX(e.target.value)}>
       {#each dims as d}
         <option value={d.value}>{d.label}</option>
       {/each}
@@ -31,50 +31,48 @@
 <style>
   .axis-selector {
     display: flex;
-    gap: 12px;
-    align-items: flex-end;
+    flex-direction: column;
+    gap: 6px;
   }
 
   .selector-group {
     display: flex;
-    flex-direction: column;
-    gap: 3px;
+    align-items: center;
+    gap: 8px;
   }
 
   label {
     font-size: 11px;
     font-weight: 600;
-    color: #666;
+    color: #999;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.04em;
+    width: 36px;
+    flex-shrink: 0;
   }
 
   select {
     font-family: var(--sans);
-    font-size: 13px;
-    padding: 5px 24px 5px 8px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 24px 5px 9px;
+    border: 1px solid #dedad4;
+    border-radius: 7px;
     background: white;
-    color: #333;
+    color: #222;
     cursor: pointer;
     outline: none;
+    flex: 1;
+    min-width: 0;
+    transition: border-color 0.15s;
   }
 
   select:focus {
     border-color: #4e79a7;
-    outline: 2px solid rgba(78, 121, 167, 0.2);
-    outline-offset: 0;
+    box-shadow: 0 0 0 3px rgba(78, 121, 167, 0.12);
   }
 
-  @media (max-width: 500px) {
-    .axis-selector {
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    select {
-      width: 100%;
-    }
+  select:hover {
+    border-color: #c8c4bc;
   }
 </style>

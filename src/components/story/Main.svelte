@@ -200,9 +200,11 @@
       <div class="controls-section">
         <AxisSelector {xDim} {yDim} onChangeX={handleChangeX} onChangeY={handleChangeY} />
       </div>
+      <div class="section-divider"></div>
       <div class="controls-section">
         <RegionFilter {disabledRegions} onToggle={handleRegionToggle} />
       </div>
+      <div class="section-divider"></div>
       <div class="controls-section">
         <div class="slider-label">Historical data</div>
         <TimeSlider
@@ -249,16 +251,16 @@
     z-index: 500;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    background: rgba(255, 253, 250, 0.94);
+    gap: 8px;
+    background: rgba(255, 253, 250, 0.96);
     backdrop-filter: blur(12px);
     border-radius: 12px;
-    padding: 14px;
+    padding: 12px 14px;
     box-shadow:
       0 1px 3px rgba(0,0,0,0.05),
       0 4px 16px rgba(0,0,0,0.08);
     border: 1px solid rgba(0,0,0,0.06);
-    max-width: 320px;
+    width: 220px;
   }
 
   .controls-section {
@@ -267,13 +269,19 @@
     gap: 6px;
   }
 
+  .section-divider {
+    height: 1px;
+    background: #eeebe5;
+    margin: 2px 0;
+  }
+
   .slider-label {
     font-family: var(--sans);
     font-size: 11px;
     font-weight: 600;
-    color: #666;
+    color: #999;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.04em;
   }
 
   .reset-year {
